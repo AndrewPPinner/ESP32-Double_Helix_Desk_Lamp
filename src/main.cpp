@@ -9,12 +9,12 @@
 #include <js.h>
 
 #define LED_PIN 14
-#define LED_COUNT 300
+#define LED_COUNT 11
 
 Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 AsyncWebServer server(80);
-const char* ssid = "Celeste";
-const char* password = "Andrew1021";
+const char* ssid = "Diya_Is_Great!";
+const char* password = "123456789";
 int r = 182;
 int g = 24;
 int b = 226;
@@ -71,16 +71,16 @@ void xmas_LED(AsyncWebServerRequest *request){
   spiralRandomAction = false;
   spiralAction = false;
   dotAction = false;
-  for (int i = 0; i < 100; i++)
+  for (int i = 0; i < 3; i++)
   {
     strip.setPixelColor(i, strip.Color(30, 255, 27));
 
   }
-  for (int i = 100; i < 200; i++)
+  for (int i = 3; i < 6; i++)
   {
     strip.setPixelColor(i, strip.Color(255, 0, 0));
   }
-    for (int i = 200; i < 300; i++)
+    for (int i = 6; i < 11; i++)
   {
     strip.setPixelColor(i, strip.Color(0, 0, 255));
   }
@@ -106,11 +106,13 @@ void LED_brightness(AsyncWebServerRequest *request){
 
 void dot_LED(AsyncWebServerRequest *request){
   dotAction = true;
+  spiralRandomAction = false;
+  spiralAction = false;
   request->send(200);
 }
 
 void setup() {
-  WiFi.begin(ssid, password);
+  WiFi.softAP(ssid, password);
   Serial.begin(115200);
   server.on("/", HTTP_GET, [] (AsyncWebServerRequest *request){main_Page(request);});
   server.on("/primary", HTTP_GET, [] (AsyncWebServerRequest *request){primary_LED(request);});
@@ -129,46 +131,47 @@ void setup() {
   strip.show();
   strip.clear();
   strip.setBrightness(50);
-  Serial.println(WiFi.localIP());
 }
 
 void loop() {
   if (spiralAction) {
-     for (int i = 0; i < LED_COUNT; i++)
+     for (int i = 0; i <= LED_COUNT; i++)
     {
       strip.setPixelColor(i, strip.Color(r, g, b));
       strip.show();
+      delay(200);
     }
     delay(10);
-    for (int i = LED_COUNT; i > 0; i--)
+    for (int i = LED_COUNT; i >= 0; i--)
     {
       strip.setPixelColor(i, strip.Color(0, 0, 0));
       strip.show();
+      delay(200);
     }
   }
   if (spiralRandomAction) {
-    for (int i = 0; i < LED_COUNT; i++)
+    for (int i = 0; i <= LED_COUNT; i++)
     {
       strip.setPixelColor(i, strip.Color(random(0,255), random(0,255), random(0,255)));
       strip.show();
+      delay(200);
     }
     delay(10);
-    for (int i = LED_COUNT; i > 0; i--)
+    for (int i = LED_COUNT; i >= 0; i--)
     {
       strip.setPixelColor(i, strip.Color(random(0,255), random(0,255), random(0,255)));
       strip.show();
+      delay(200);
     }
   }
   if (dotAction) {
-    for (int i = 0; i < LED_COUNT; i++)
+    for (int i = 0; i <= LED_COUNT; i++)
     {
       strip.setPixelColor(i, strip.Color(r, g, b));
       strip.setPixelColor(i + 1, strip.Color(r, g, b));
-      strip.setPixelColor(i + 2, strip.Color(r, g, b));
-      strip.setPixelColor(i + 3, strip.Color(r, g, b));
       strip.setPixelColor(i - 1, strip.Color(0, 0, 0));
       strip.show();
-      delay(10);
+      delay(100);
     }
   }
 }
