@@ -210,4 +210,7 @@ void loop() {
     birthday = true;
     //add something attention grabbing!
   } else {birthday = false;}
+  if(!birthdayOverride && rtc.getMonth() == 7 && rtc.getDay() == 18) {
+    birthdayOverride = false;
+  }
 }
