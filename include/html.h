@@ -1,4 +1,4 @@
-String HTML() {
+String MainHtml() {
 String html = "<!DOCTYPE html> <html>\n"
   "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\">\n"
   "<title>Diya's Desk Lamp</title>\n"
@@ -30,8 +30,8 @@ String html = "<!DOCTYPE html> <html>\n"
   "<label for=\"dot\">Dot</label>"
   "<input type=\"radio\" name=\"dot\" id=\"dot\"/>"
   "</br>"
-  "<label for=\"range\">Brightness: </label>"
-  "<input type=\"range\" min=\"1\" max=\"100\" value=\"50\" id=\"range\">"
+  "<label for=\"number\">Brightness: </label>"
+  "<input type=\"number\" min=\"1\" max=\"100\" value=\"50\" id=\"number\">"
   "</br>"
   "<label for=\"brightness\">Current Brightness: </label>"
   "<p id=\"currentBrightness\">50</p>"
@@ -39,6 +39,45 @@ String html = "<!DOCTYPE html> <html>\n"
   "<button id=\"clear\">Clear Current Action</button>"
   "</body>\n"
   "</html>\n"
+  ;
+  return html;
+}
+
+String SetDateHtml() {
+  String html = "<!DOCTYPE html> <html>\n"
+  "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\">\n"
+  "<title>Diya's Desk Lamp</title>\n"
+  "<style>html { font-family: Helvetica; display: inline-block; margin: 0px auto; text-align: center;}\n"
+  "body{margin-top: 50px;} h1 {color: #444444;margin: 50px auto 30px;}\n"
+  "p {font-size: 24px;color: #444444;margin-bottom: 10px;}\n"
+  "</style>\n"
+  "</head>\n"
+  "<body>\n"
+  "<div id=\"webpage\">\n"
+  "<h1>Diya's Desk Lamp</h1>"
+  "</br>"
+  "<h2>Please set today's date</h2>"
+  "</br>"
+  "<label for=\"dateInput\">Date: </label>"
+  "<input id=\"dateInput\" type=\"date\" min=\"2023-03-30\">"
+  ;
+  return html;
+}
+
+String bDayHtml() {
+    String html = "<!DOCTYPE html> <html>\n"
+  "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\">\n"
+  "<title>Diya's Desk Lamp</title>\n"
+  "<style>html { font-family: Helvetica; display: inline-block; margin: 0px auto; text-align: center;}\n"
+  "body{margin-top: 50px;} h1 {color: #444444;margin: 50px auto 30px;}\n"
+  "p {font-size: 24px;color: #444444;margin-bottom: 10px;}\n"
+  "</style>\n"
+  "</head>\n"
+  "<body>\n"
+  "<h1>HAPPY BIRTHDAY DIYA!!!!!</h1>"
+  "</br>"
+  "<p><b>You are amazing and I hope you have a wonderful day. I am so proud of all the work you have done and all the the things you will accomplish!</b></p>"
+  "<button id=\"mainPage\">Go back to main page</button>"
   ;
   return html;
 }

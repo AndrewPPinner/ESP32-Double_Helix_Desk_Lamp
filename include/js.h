@@ -1,4 +1,4 @@
-String JS() {
+String MainJS() {
     String script = "<script>"
     "let primaryColor;"
     "let random;"
@@ -6,7 +6,7 @@ String JS() {
     "let spiralRandom;"
     "let Xmas;"
     "let clear;"
-    "let range;"
+    "let number;"
     "let currentBrightness;"
     "let dot;"
     "const defaultColor = \"#0000ff\";"
@@ -26,11 +26,11 @@ String JS() {
         "Xmas.addEventListener(\"change\", setXmas, false);"
         "clear = document.querySelector(\"#clear\");"
         "clear.addEventListener(\"click\", clearLED, false);"
-        "range = document.querySelector(\"#range\");"
-        "range.addEventListener(\"click\", setBrightness, false);"
+        "number = document.querySelector(\"#number\");"
+        "number.addEventListener(\"change\", setBrightness, false);"
         "currentBrightness = document.querySelector(\"#currentBrightness\");"
         "dot = document.querySelector(\"#dot\");"
-        "dot.addEventListener(\"click\", setDot, false);"
+        "dot.addEventListener(\"change\", setDot, false);"
     "}"
     "function convert(hex){"
         "const r = parseInt(hex.substr(1, 2), 16);"
@@ -115,4 +115,52 @@ String JS() {
     "</script>"    
     ;
     return script;
+}
+
+
+String SetDateJS() {
+    String JS = 
+    "<script>"
+    "window.addEventListener(\"load\", startup, false);"
+    "function startup() {"
+        "dateInput = document.querySelector(\"#dateInput\");"
+        "dateInput.addEventListener(\"change\", setDate, false);"
+    "}"
+    "function setDate(event) {"
+        "let req = new XMLHttpRequest();"
+        "let date = event.target.value;"
+        "req.onreadystatechange = function() {"
+            "if (req.readyState == XMLHttpRequest.DONE) {"
+                "window.location.href = \"http://192.168.4.1/\";"
+            "}"
+        "};"
+        "req.open(\"GET\", \"http://192.168.4.1/setDate?date=\" + date , false);"
+        "req.send(null);"
+    "}"
+    "</script>"
+    ;
+    return JS;
+}
+
+String bDayJS() {
+    String JS = 
+    "<script>"
+    "window.addEventListener(\"load\", startup, false);"
+    "function startup() {"
+        "button = document.querySelector(\"#mainPage\");"
+        "button.addEventListener(\"click\", resetPage, false);"
+    "}"
+    "function resetPage() {"
+        "let req = new XMLHttpRequest();"
+         "req.onreadystatechange = function() {"
+            "if (req.readyState == XMLHttpRequest.DONE) {"
+                "window.location.href = \"http://192.168.4.1/\";"
+            "}"
+        "};"
+        "req.open(\"GET\", \"http://192.168.4.1/resetPage\" , false);"
+        "req.send(null);"
+    "}"
+    "</script>"
+    ;
+    return JS;
 }

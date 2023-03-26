@@ -4,6 +4,7 @@
 #include <ESPAsyncWebServer.h>
 #include <AsyncTCP.h>
 #include <AsyncElegantOTA.h>
+#include <ESP32Time.h>
 
 #include <html.h>
 #include <js.h>
@@ -13,6 +14,8 @@
 
 Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 AsyncWebServer server(80);
+ESP32Time rtc;
+
 const char* ssid = "Diya_Is_Great!";
 const char* password = "123456789";
 int r = 182;
@@ -21,10 +24,31 @@ int b = 226;
 bool spiralAction = false;
 bool spiralRandomAction = false;
 bool dotAction = false;
+bool dateSet = false;
+bool birthday = false;
+bool birthdayOverride = false;
 
 void main_Page(AsyncWebServerRequest *request) {
-  request->send(200, "text/html", HTML() + JS());
+  if (dateSet){
+    if (birthday) {
+      request->send(200, "text/html", bDayHtml() + bDayJS());
+    }
+    request->send(200, "text/html", MainHtml() + MainJS());
+  }
+  request->send(200, "text/html", SetDateHtml() + SetDateJS());
 }
+
+void set_date(AsyncWebServerRequest *request) {
+  rtc.setTime(
+    0,0,0,
+    request->getParam("date")->value().substring(8).toInt(),
+    request->getParam("date")->value().substring(5,8).toInt(),
+    request->getParam("date")->value().substring(0,4).toInt()
+  );
+  dateSet = true;
+  request->send(200);
+}
+  
 
 void primary_LED(AsyncWebServerRequest *request){
   spiralRandomAction = false;
@@ -111,6 +135,12 @@ void dot_LED(AsyncWebServerRequest *request){
   request->send(200);
 }
 
+void resetBday(AsyncWebServerRequest *request){
+  birthday = false;
+  birthdayOverride = true;
+  request->send(200);
+}
+
 void setup() {
   WiFi.softAP(ssid, password);
   Serial.begin(115200);
@@ -123,6 +153,8 @@ void setup() {
   server.on("/clear",  HTTP_GET, [] (AsyncWebServerRequest *request){clear_LED(request);});
   server.on("/brightness",  HTTP_GET, [] (AsyncWebServerRequest *request){LED_brightness(request);});
   server.on("/dot",  HTTP_GET, [] (AsyncWebServerRequest *request){dot_LED(request);});
+  server.on("/setDate",  HTTP_GET, [] (AsyncWebServerRequest *request){set_date(request);});
+  server.on("/resetPage",  HTTP_GET, [] (AsyncWebServerRequest *request){resetBday(request);});
 
   AsyncElegantOTA.begin(&server, &strip);
   server.begin();
@@ -174,4 +206,8 @@ void loop() {
       delay(100);
     }
   }
+  if(!birthdayOverride && rtc.getMonth() == 7 && rtc.getDay() == 17) {
+    birthday = true;
+    //add something attention grabbing!
+  } else {birthday = false;}
 }
